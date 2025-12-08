@@ -101,15 +101,11 @@ void PackedBitmapPixelArray::cut(vec2<unsigned int> a, vec2<unsigned int> b) {
     unsigned int new_row_size = get_row_size(bits_per_pixel, new_w);
     unsigned int new_pixel_array_size = get_pixel_array_size(new_row_size, new_h);
 
-    pixels = new_pixels;
+    pixels = std::move(new_pixels);
     w = new_w;
     h = new_h;
     row_size = new_row_size;
     pixel_array_size_in_bytes = new_pixel_array_size;
-    assert(a[0] <= b[0]);
-    assert(a[1] <= b[1]);
-    assert(new_w > 0);
-    assert(raw_new_h > 0);
 }
 
 
@@ -118,7 +114,6 @@ uint8_t * PackedBitmapPixelArray::data() {
 }
 
 size_t PackedBitmapPixelArray::byte_size() {
-    assert(pixels.size() * sizeof(std::byte) == pixel_array_size_in_bytes);
     return pixel_array_size_in_bytes;
 }
 
